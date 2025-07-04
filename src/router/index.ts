@@ -1,8 +1,7 @@
-import { fetchMe } from '@/api/user';
-// import { useUserStore } from '@/store/userStore';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import PrivateRoutes from './private';
 import PublicRoutes from './public';
+import { usePocketBaseStore } from '@/store/pocketbaseStore';
 
 const whiteList = ['Login', 'Register', 'Forget', 'Reset'];
 
@@ -10,7 +9,6 @@ export const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   scrollBehavior(to) {
     if (to.hash) return { el: to.hash, behavior: 'smooth', top: 60 };
-
     return { top: 0 };
   },
   routes: [
@@ -23,19 +21,25 @@ export const router = createRouter({
   ]
 });
 
-// Docs: https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
+// 路由守卫
 router.beforeEach(async (to) => {
   const routeName = String(to.name);
+  const pocketbaseStore = usePocketBaseStore();
+
   if (whiteList.includes(routeName)) {
     return true;
   } else {
-    // const userStore = useUserStore();
-    try {
-      const resp = await fetchMe();
-      console.log(resp);
+    // 检查 PocketBase 认证状态
+    if (pocketbaseStore.isAuthenticated) {
       return true;
-    } catch (error) {
-      return { name: 'Login' };
+    } else {
+      // 尝试刷新认证
+      try {
+        await pocketbaseStore.refreshAuth();
+        return true;
+      } catch (error) {
+        return { name: 'Login' };
+      }
     }
   }
 });

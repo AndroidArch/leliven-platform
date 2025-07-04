@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { useUserStore } from '@/store/userStore';
+import { usePocketBaseStore } from '@/store/pocketbaseStore';
+import { useSnackbarStore } from '@/store/snackbarStore';
 import { useRoute, useRouter } from 'vue-router';
 import { useLocale } from 'vuetify';
-import { login } from '@/api/user';
 
 const { t } = useLocale();
 const checkbox = ref(true);
 const formRules = reactive({
-  username: [
+  email: [
     (value: string) => {
       if (value) return true;
-      return t('username required');
+      return t('email required');
     }
   ],
   password: [
@@ -22,27 +22,28 @@ const formRules = reactive({
   ]
 });
 const formModel = reactive({
-  username: 'admin',
-  password: '123456'
+  email: 'ylw@leliven.com',
+  password: 'leliven123'
 });
 
-const userStore = useUserStore();
+const pocketbaseStore = usePocketBaseStore();
+const snackbarStore = useSnackbarStore();
 const route = useRoute();
 const router = useRouter();
 const submiting = ref(false);
 const formValid = ref(false);
+
 const handleSubmit = async () => {
   if (formValid.value === true) {
     submiting.value = true;
     try {
-      const { data } = await login(formModel);
-      const { access_token } = data;
-      submiting.value = false;
-      userStore.setToken(access_token);
+      await pocketbaseStore.login(formModel.email, formModel.password);
+      snackbarStore.showMessage('登录成功', 'success');
       router.replace(route.query.to ? String(route.query.to) : '/');
     } catch (error) {
+      snackbarStore.showMessage('登录失败，请检查邮箱和密码', 'error');
+    } finally {
       submiting.value = false;
-      console.log(error);
     }
   }
 };
@@ -52,13 +53,14 @@ const handleSubmit = async () => {
   <VForm v-model="formValid" @submit.prevent>
     <VRow class="d-flex mb-3">
       <VCol cols="12">
-        <VLabel class="mb-1">{{ $t('username') }}</VLabel>
+        <VLabel class="mb-1">{{ $t('email') }}</VLabel>
         <VTextField
           variant="outlined"
           color="primary"
-          name="username"
-          :rules="formRules.username"
-          v-model="formModel.username"
+          name="email"
+          type="email"
+          :rules="formRules.email"
+          v-model="formModel.email"
         />
       </VCol>
       <VCol cols="12">
