@@ -25,6 +25,7 @@
     "dayjs": "^1.11.10",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "pocketbase": "^0.26.1",
     "prismjs": "^1.29.0",
     "vue": "3.4.21",
     "vue-flatpickr-component": "11.0.4",

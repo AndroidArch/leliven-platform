@@ -17,6 +17,12 @@ module.exports = {
     'vue/valid-v-slot': 'off',
     'vue/multi-word-component-names': 'off',
     '@typescript-eslint/comma-dangle': 'off',
-    'prettier/prettier': ['error', { endOfLine: 'lf' }]
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    '@typescript-eslint/no-explicit-any': [
+      'warn', // 或 'error'
+      {
+        fixToUnknown: true // 建议将 any 自动改为 unknown
+      }
+    ]
   }
 };
