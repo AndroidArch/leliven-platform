@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import { usePocketBaseStore } from '@/store/pocketbaseStore';
 import { useSnackbarStore } from '@/store/snackbarStore';
 import { useRoute, useRouter } from 'vue-router';
 import { useLocale } from 'vuetify';
+import { useAuthStore } from '@/store/auth.store';
 
 const { t } = useLocale();
 const checkbox = ref(true);
@@ -26,7 +26,7 @@ const formModel = reactive({
   password: 'leliven123'
 });
 
-const pocketbaseStore = usePocketBaseStore();
+const authStore = useAuthStore();
 const snackbarStore = useSnackbarStore();
 const route = useRoute();
 const router = useRouter();
@@ -37,7 +37,7 @@ const handleSubmit = async () => {
   if (formValid.value === true) {
     submiting.value = true;
     try {
-      await pocketbaseStore.login(formModel.email, formModel.password);
+      await authStore.login(formModel.email, formModel.password);
       snackbarStore.showMessage('登录成功', 'success');
       router.replace(route.query.to ? String(route.query.to) : '/');
     } catch (error) {

@@ -5,9 +5,14 @@ import YearlyBreakup from '@/components/charts/YearlyBreakup.vue';
 import MonthlyEarning from '@/components/charts/MonthlyEarnings.vue';
 import RecentTransaction from '@/components/dashboard/RecentTransaction.vue';
 import RecentTask from '@/components/dashboard/RecentTask.vue';
+// import user
+import { useAuthStore } from '@/store/auth.store';
+
+const authStore = useAuthStore();
 </script>
 <template>
   <VRow>
+    {{ authStore.user }}
     <VCol cols="12">
       <VRow>
         <!-- Sales overview -->

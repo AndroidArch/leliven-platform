@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import PrivateRoutes from './private';
 import PublicRoutes from './public';
-import { usePocketBaseStore } from '@/store/pocketbaseStore';
+import { useAuthStore } from '@/store/auth.store';
 
 const whiteList = ['Login', 'Register', 'Forget', 'Reset'];
 
@@ -24,18 +24,18 @@ export const router = createRouter({
 // 路由守卫
 router.beforeEach(async (to) => {
   const routeName = String(to.name);
-  const pocketbaseStore = usePocketBaseStore();
+  const authStore = useAuthStore();
 
   if (whiteList.includes(routeName)) {
     return true;
   } else {
     // 检查 PocketBase 认证状态
-    if (pocketbaseStore.isAuthenticated) {
+    if (authStore.isAuthenticated) {
       return true;
     } else {
       // 尝试刷新认证
       try {
-        await pocketbaseStore.refreshAuth();
+        await authStore.checkAuth();
         return true;
       } catch (error) {
         return { name: 'Login' };
