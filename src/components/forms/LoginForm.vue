@@ -4,6 +4,7 @@ import { useSnackbarStore } from '@/store/snackbarStore';
 import { useRoute, useRouter } from 'vue-router';
 import { useLocale } from 'vuetify';
 import { useAuthStore } from '@/store/auth.store';
+import pb from '@/api/pocketbase/client';
 
 const { t } = useLocale();
 const checkbox = ref(true);
@@ -37,7 +38,8 @@ const handleSubmit = async () => {
   if (formValid.value === true) {
     submiting.value = true;
     try {
-      await authStore.login(formModel.email, formModel.password);
+      // await authStore.login(formModel.email, formModel.password);
+      await pb.collection('_superusers').authWithPassword(formModel.email, formModel.password);
       snackbarStore.showMessage('登录成功', 'success');
       router.replace(route.query.to ? String(route.query.to) : '/');
     } catch (error) {

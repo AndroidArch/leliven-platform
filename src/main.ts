@@ -29,6 +29,6 @@ if (import.meta.env.DEV) {
 
 app.use(vuetify).mount('#app');
 
-// 初始化 PocketBase 认证状态
-const pocketbaseStore = usePocketBaseStore();
-pocketbaseStore.initAuth();
+// // 初始化 PocketBase 认证状态
+// const pocketbaseStore = usePocketBaseStore();
+// pocketbaseStore.initAuth();

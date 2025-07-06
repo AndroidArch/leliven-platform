@@ -1,7 +1,7 @@
 import { http, HttpResponse, delay } from 'msw';
 import { users } from './db';
 
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTB9.txWLuN4QT5PqTtgHmlOiNerIu5Do51PpYOiZutkyXYg';
+const TOKEN = '1eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTB9.txWLuN4QT5PqTtgHmlOiNerIu5Do51PpYOiZutkyXYg';
 
 export const findUserById = (id) => {
   return users.find((item) => item.id === id);

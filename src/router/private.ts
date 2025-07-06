@@ -51,6 +51,16 @@ const PrivateRoutes = {
       name: 'Setting',
       path: '/setting',
       component: () => import('@/views/setting/SettingView.vue')
+    },
+    {
+      name: 'Import',
+      path: '/import',
+      component: () => import('@/views/import/ImportView.vue')
+    },
+    {
+      name: 'ParkingLots',
+      path: '/parking-lots',
+      component: () => import('@/views/parking-lots/ParkingLotsView.vue')
     }
   ]
 };

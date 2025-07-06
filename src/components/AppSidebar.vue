@@ -100,6 +100,27 @@ const items = [
       exact: true
     },
     value: '/chart'
+  },
+  { type: 'subheader', title: '数据管理' },
+  {
+    title: '数据导入',
+    props: {
+      prependIcon: 'mdi-upload',
+      link: true,
+      to: '/import',
+      exact: true
+    },
+    value: '/import'
+  },
+  {
+    title: '车场管理',
+    props: {
+      prependIcon: 'mdi-parking-lights',
+      link: true,
+      to: '/parking-lots',
+      exact: true
+    },
+    value: '/parking-lots'
   }
 ];
 
